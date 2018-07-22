@@ -1,6 +1,13 @@
 # Flashcards
 Flashcards is an iOS application that allows users to create decks of flashcards and quiz how well they have learned the material.
 
+## Note to Reviewer
+- This project was tested for iOS only
+- The button to add cards to a deck is in the Deck List view rather than in the Deck view (this was a design decision).
+- When a user adds a deck, they are redirected to the Deck List view rather than the deck view since this is where they can add cards to the deck.
+- To view the answer to a question the user needs to swipe left rather than click on a show answer button.
+- To delete a deck, the user can swipe left on a Deck in the Deck List view.
+
 ## Software Requirements
 - [git](https://git-scm.com/downloads)
 - [npm](https://nodejs.org/en/download/)
