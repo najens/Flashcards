@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet, Platform } from 'react-native'
 import PropTypes from 'prop-types'
-import { primaryDark, primary, white } from '../utils/colors'
+import { primaryDark, primary, white, black } from '../utils/colors'
 import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures'
 import Question from './Question'
 import Answer from './Answer'
+import { Ionicons } from '@expo/vector-icons'
 
 class Quiz extends Component {
 	state = {
@@ -52,7 +53,18 @@ class Quiz extends Component {
 			score: 0,
 		})
 	}
+	onPressAdd = () => {
+		const { navigation, deck, id } = this.props
+		return navigation.navigate(
+			'AddCard',
+			{
+				id,
+				title: 'New Card',
+			}
+		)
+	}
 	render () {
+		console.log(this.props)
 		const { navigation, deck } = this.props
 		const { questionNum, isQuestion, score } = this.state
 		const deckSize = Object.keys(deck.questions).length
@@ -67,14 +79,25 @@ class Quiz extends Component {
 		}
 		if (questionNum === -1) {
 			return (
-				<View style={styles.container}>
-					<Text style={styles.heading}>{deck.title}</Text>
-					<Text style={styles.subHeading}>{deckSize} cards</Text>
-					{deckSize > 0 &&
-						<TouchableOpacity style={styles.btn} onPress={this.startQuiz}>
-							<Text style={styles.btnText}>Start Quiz</Text>
-						</TouchableOpacity>
-					}
+				<View style={{ flex: 1 }}>
+					<View style={styles.addContainer}>
+						<TouchableOpacity style={styles.addBtn} onPress={this.onPressAdd}>
+								<Ionicons
+									name={Platform.OS === 'ios' ? 'ios-add' : 'md-add'}
+									size={40}
+									color={black}
+								/>
+							</TouchableOpacity>
+					</View>
+					<View style={styles.container}>
+						<Text style={styles.heading}>{deck.title}</Text>
+						<Text style={styles.subHeading}>{deckSize} cards</Text>
+						{deckSize > 0 &&
+							<TouchableOpacity style={styles.btn} onPress={this.startQuiz}>
+								<Text style={styles.btnText}>Start Quiz</Text>
+							</TouchableOpacity>
+						}
+					</View>
 				</View>
 			)
 		}
@@ -137,6 +160,13 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
+	addContainer: {
+		flexDirection: 'row',
+		justifyContent: 'flex-end',
+	},
+	addBtn: {
+		padding: 10,
+	},
 	heading: {
 		fontSize: 36,
 		marginBottom: 18,
@@ -181,7 +211,8 @@ const mapStateToProps = (decks, props) => {
 		const { id } = props.navigation.state.params
 		const deck = decks[id]
 		return {
-			deck
+			deck,
+			id,
 		}
 	}
 	return {}

@@ -21,7 +21,6 @@ function decks (state = {}, action) {
 			}
 		case ADD_CARD :
 			const deck = state[action.id]
-			console.log('DECK: ', deck)
 			const questions = deck.questions
 			const newQuestions = {
 				...questions,

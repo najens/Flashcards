@@ -34,18 +34,22 @@ class AddDeck extends Component {
       deck: '',
     })
 
-		this.toHome()
+		this.toDeck(key, deck)
 
     submitDeck({ key, deck })
 
 		clearLocalNotification()
 			.then(setLocalNotification())
 	}
-	toHome = () => {
+	toDeck = (key, deck) => {
 		const { navigation } = this.props
-		navigation.dispatch(NavigationActions.back({
-			key: 'AddDeck'
-		}))
+		return navigation.navigate(
+			'Quiz',
+			{
+				id: key,
+				title: deck,
+			}
+		)
 	}
 	render () {
 		const { deck } = this.state
